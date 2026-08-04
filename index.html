@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Школа Седы Каспаровой</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ─────────────────────────  HEADER  ───────────────────────── -->
+<header id="header">
+  <div class="hdr-inner" id="hdrInner">
+
+    <a class="hdr-logo" href="#top">
+      <span class="hdr-mark"><img src="assets/logo-mark.svg" alt=""></span>
+      <span class="hdr-word">
+        <span>Школа</span>
+        <span>Седы&nbsp;Каспаровой</span>
+      </span>
+    </a>
+
+    <nav class="hdr-nav">
+      <a class="nav-item" href="#">Обучение<i class="chev"><img src="assets/chevron.svg" alt=""></i></a>
+      <a class="nav-item" href="#">Тренинги<i class="chev"><img src="assets/chevron.svg" alt=""></i></a>
+      <a class="nav-item" href="#">С чего начать</a>
+      <a class="nav-item" href="#">Выступления Седы</a>
+      <a class="nav-item" href="#">Контакты</a>
+      <a class="nav-item" href="#">Ещё<i class="chev"><img src="assets/chevron.svg" alt=""></i></a>
+    </nav>
+
+    <div class="hdr-cta">
+      <a class="btn-white btn-white--sm" href="#form">Подобрать обучение</a>
+    </div>
+
+  </div>
+</header>
+
+<!-- ─────────────────────────  SMOOTH SCROLL WRAPPER  ───────────────────────── -->
+<div id="smooth-wrap">
+<main id="smooth-content">
+
+  <!-- ═══════════  HERO AREA (bg spans hero + cards)  ═══════════ -->
+  <div class="hero-area" id="top">
+
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="hero-deco" aria-hidden="true">
+      <div class="lines">
+        <span class="line line-1"><img src="assets/line-1.svg" alt=""></span>
+        <span class="line line-2"><img src="assets/line-2.svg" alt=""></span>
+        <span class="line line-3"><img src="assets/line-3.svg" alt=""></span>
+        <span class="line line-4"><img src="assets/line-4.svg" alt=""></span>
+      </div>
+      <div class="blobs">
+        <span class="blob blob-3"><img src="assets/blob-3.svg" alt=""></span>
+        <span class="blob blob-2"><img src="assets/blob-2.svg" alt=""></span>
+        <span class="blob blob-1"><img src="assets/blob-1.svg" alt=""></span>
+      </div>
+    </div>
+
+    <a class="hero-event hero-anim" href="#form" style="--d:.12s" aria-label="Записаться на «Голос может 2026»">
+      <span class="hero-event-photo">
+        <img src="assets/hero-event-photo.png" alt="">
+      </span>
+      <span class="hero-event-content">
+        <span class="hero-event-copy">
+          <span class="hero-event-kicker">Главное событие этой осени</span>
+          <span class="hero-event-title">Голос может 2026</span>
+        </span>
+        <span class="hero-event-bottom">
+          <span class="hero-event-cta">Записаться</span>
+          <span class="hero-event-dots" aria-hidden="true">
+            <span class="hero-event-progress"><i></i></span>
+            <i></i><i></i>
+          </span>
+        </span>
+      </span>
+    </a>
+
+    <!-- ─────────  HERO  ───────── -->
+    <section class="hero">
+      <div class="container">
+
+        <div class="hero-head">
+          <h1 class="hero-title hero-anim" style="--d:.05s">Научитесь общаться уверенно и убедительно</h1>
+          <div class="hero-sub hero-anim" style="--d:.16s" id="heroSub" aria-live="polite">
+            <p class="hero-sub-line is-current">Чтобы реализовать свои возможности через голос и речь</p>
+            <p class="hero-sub-line">Чтобы общаться уверенно с кем угодно, где угодно и о чем угодно</p>
+            <p class="hero-sub-line">Чтобы презентовать себя и свои услуги без стеснения</p>
+            <p class="hero-sub-line">Чтобы выражать мысли без страха «сказать не так»</p>
+          </div>
+        </div>
+
+        <form class="widget hero-anim" id="form" style="--d:.28s" novalidate>
+          <p class="widget-label">Проведём бесплатную консультацию и подберём программу обучения</p>
+
+          <div class="widget-body">
+            <div class="widget-row">
+              <div class="widget-fields">
+                <label class="field"><input type="text" placeholder="Имя" autocomplete="name"></label>
+                <label class="field"><input type="tel" placeholder="+7 (---) --- -- --" autocomplete="tel"></label>
+                <label class="field"><input type="email" placeholder="Почта" autocomplete="email"></label>
+              </div>
+              <button class="btn-blue" type="submit">Записаться</button>
+            </div>
+
+            <label class="consent">
+              <input type="checkbox">
+              <span class="consent-box"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5.2 4.2 8.4 11 1.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="consent-text">Даю согласие на обработку <a href="#">персональных данных</a></span>
+            </label>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ─────────  METRIC CARDS  ───────── -->
+    <section class="cards">
+      <div class="container cards-grid">
+
+        <article class="card card--light hero-anim" style="--d:0s">
+          <div class="card-head">
+            <p class="m-value">38 000+</p>
+            <p class="m-label">учеников</p>
+          </div>
+          <p class="card-desc card-desc--abs">Из 73 стран мира — курс востребован далеко за пределами России</p>
+          <span class="card-photo card-photo--sq"><img src="assets/card1-photo.png" alt=""></span>
+        </article>
+
+        <article class="card card--light card--manta hero-anim" style="--d:.08s">
+          <div class="card-head">
+            <p class="m-value">98%</p>
+            <p class="m-label">доходят до финала</p>
+          </div>
+          <span class="card-manta"><img src="assets/manta-finish-card.png" alt=""></span>
+          <p class="card-desc">Столько учеников курсов «Голос может» и «Ключевые действия» доходят до конца обучения</p>
+        </article>
+
+        <article class="card card--photo hero-anim" style="--d:.16s">
+          <span class="card-bg">
+            <img class="card-bg-base" src="assets/card2-bg.png" alt="">
+            <img class="card-bg-top" src="assets/card2-photo.png" alt="">
+            <span class="card-scrim"></span>
+          </span>
+          <div class="card-photo-body">
+            <p class="card-title">Лидер рынка по обучению голосу</p>
+            <p class="card-desc card-desc--light">«Голос может» — самый масштабный проект по речи и голосу в России и странах СНГ</p>
+          </div>
+        </article>
+
+        <article class="card card--light card--start hero-anim" style="--d:.24s">
+          <div class="card-top">
+            <div class="card-head">
+              <p class="m-value">40+</p>
+              <p class="m-label">тренеров</p>
+            </div>
+            <p class="card-desc">Профессиональные тренеры, которые работают со взрослыми и детьми</p>
+          </div>
+          <span class="card-mini"><img src="assets/card4-photo.png" alt=""></span>
+        </article>
+
+      </div>
+    </section>
+
+  </div><!-- /hero-area -->
+
+  <!-- ═══════════  CLIENTS  ═══════════ -->
+  <section class="clients">
+    <div class="container">
+      <h2 class="h48 center reveal">Кого мы обучали</h2>
+
+      <div class="marquees reveal" style="--d:.1s">
+        <div class="marquee">
+          <div class="marquee-track" style="--gap:82px">
+            <div class="marquee-seq">
+              <span class="logo" style="--w:99px;--h:28px"><img src="assets/logo-cdek.svg" alt="СДЭК"></span>
+              <span class="logo" style="--w:153px;--h:28px"><img src="assets/logo-avtodor.svg" alt="Автодор"></span>
+              <span class="logo" style="--w:96px;--h:32px"><img src="assets/logo-gazprom.svg" alt="Газпром"></span>
+              <span class="logo" style="--w:155px;--h:32px"><img src="assets/logo-kaspersky.svg" alt="Kaspersky"></span>
+              <span class="logo" style="--w:149px;--h:28px"><img src="assets/logo-magnit.svg" alt="Магнит"></span>
+              <span class="logo" style="--w:155px;--h:20px"><img src="assets/logo-gazeta.svg" alt="Газета.ru"></span>
+              <span class="logo" style="--w:120.546px;--h:24px"><img src="assets/logo-lukoil.svg" alt="Лукойл"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="marquee">
+          <div class="marquee-track marquee-track--rev" style="--gap:90px">
+            <div class="marquee-seq">
+              <span class="logo" style="--w:99px;--h:28px"><img src="assets/logo-cdek.svg" alt="СДЭК"></span>
+              <span class="logo" style="--w:96px;--h:32px"><img src="assets/logo-gazprom.svg" alt="Газпром"></span>
+              <span class="logo" style="--w:155px;--h:32px"><img src="assets/logo-kaspersky.svg" alt="Kaspersky"></span>
+              <span class="logo" style="--w:149px;--h:28px"><img src="assets/logo-magnit.svg" alt="Магнит"></span>
+              <span class="logo" style="--w:155px;--h:20px"><img src="assets/logo-gazeta.svg" alt="Газета.ru"></span>
+              <span class="logo" style="--w:120.546px;--h:24px"><img src="assets/logo-lukoil.svg" alt="Лукойл"></span>
+              <span class="logo" style="--w:153px;--h:28px"><img src="assets/logo-avtodor.svg" alt="Автодор"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════  BUSINESS / GREEN BLOCK  ═══════════ -->
+  <section class="business">
+    <div class="container">
+      <div class="biz reveal">
+        <span class="biz-photo"><img src="assets/green-photo.png" alt=""></span>
+
+        <div class="biz-cards">
+          <div class="glass">
+            <p class="g-value">1,5+ трлн ₽</p>
+            <p class="g-desc">Оборот компаний,<br>с которыми мы работаем</p>
+          </div>
+          <div class="glass">
+            <p class="g-value">Рекорд России</p>
+            <p class="g-desc">Провели самую масштабную тренировку по голосу и речи</p>
+          </div>
+        </div>
+
+        <div class="biz-foot">
+          <p class="biz-foot-text">Поможем подобрать обучение<br>под ваши задачи</p>
+          <a class="btn-white btn-white--lg" href="#form">Подобрать обучение</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════  MISSION  ═══════════ -->
+  <section class="mission">
+    <div class="container">
+
+      <div class="mission-head">
+        <span class="manta reveal"><span class="manta-clip"><img src="assets/manta.png" alt=""></span></span>
+        <h2 class="mission-text" id="missionText">Наша миссия показать людям,<br>как договариваться и выстраивать надёжные, добрые, взаимовыгодные отношения через эффективную коммуникацию</h2>
+      </div>
+
+      <div class="method">
+        <span class="method-line-h" aria-hidden="true"></span>
+        <span class="method-line-v" aria-hidden="true"></span>
+
+        <div class="method-inner">
+          <span class="method-photo reveal"><img src="assets/method-photo.png" alt=""></span>
+          <div class="method-col">
+            <div class="method-item reveal" style="--d:.08s">
+              <p class="method-title">Методология</p>
+              <p class="method-desc">Команда методологов и тренеров составляет и реализует программы под потребности каждого возраста и конкретные задачи бизнеса</p>
+            </div>
+            <div class="method-item reveal" style="--d:.16s">
+              <p class="method-title">От 9 до 86 лет</p>
+              <p class="method-desc">Столько учеников курсов «Голос может» и «Ключевые действия» доходят до конца обучения</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="awards">
+    <div class="container">
+      <h2 class="h48 center awards-title reveal">Наши награды</h2>
+
+      <div class="awards-list" aria-label="Список наград">
+        <article class="award-row reveal" style="--d:.06s">
+          <p class="award-year">‘26</p>
+          <p class="award-label">Онлайн-школа года. Саморазвитие и личностный рост</p>
+          <p class="award-source">GetAward</p>
+        </article>
+        <article class="award-row reveal" style="--d:.14s">
+          <p class="award-year">‘25</p>
+          <p class="award-label">Специальная премия за вклад в развитие онлайн-образования</p>
+          <p class="award-source">GetAward</p>
+        </article>
+        <article class="award-row reveal" style="--d:.22s">
+          <p class="award-year">‘24</p>
+          <p class="award-label">Онлайн-школа года. Психология и личностный рост</p>
+          <p class="award-source">GetAward</p>
+        </article>
+        <article class="award-row reveal" style="--d:.30s">
+          <p class="award-year">‘23</p>
+          <p class="award-label">Онлайн-школа года. Психология и личностный рост</p>
+          <p class="award-source">GetAward</p>
+        </article>
+        <article class="award-row reveal" style="--d:.38s">
+          <p class="award-year">‘23</p>
+          <p class="award-label">«Лучший продукт» и «Самый большой запуск»</p>
+          <p class="award-source">Like Центр</p>
+        </article>
+        <article class="award-row reveal" style="--d:.46s">
+          <p class="award-year">‘21</p>
+          <p class="award-label">Лучший образовательный проект, созданный для женщин</p>
+          <p class="award-source">Woman Who Matters</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════  CALENDAR  ═══════════ -->
+  <section class="calendar">
+    <div class="container">
+
+      <div class="cal-head reveal">
+        <h2 class="h48 center">Календарь событий</h2>
+        <div class="cal-tabs">
+          <button class="cal-tab is-active" type="button">Ближайшие</button>
+          <button class="cal-tab" type="button">Июнь<span class="cal-tab-n">2</span></button>
+          <button class="cal-tab" type="button">Июль<span class="cal-tab-n">2</span></button>
+          <button class="cal-tab" type="button">Август<span class="cal-tab-n">5</span></button>
+          <button class="cal-tab" type="button">Сентябрь<span class="cal-tab-n">3</span></button>
+          <button class="cal-tab" type="button">Октябрь<span class="cal-tab-n">1</span></button>
+          <button class="cal-tab" type="button">Ноябрь<span class="cal-tab-n">8</span></button>
+        </div>
+      </div>
+
+      <div class="cal-body">
+        <div class="cal-rows">
+
+          <a class="cal-row reveal" href="#">
+            <p class="cal-title">Выступление Седы Каспаровой</p>
+            <p class="cal-city">Москва</p>
+            <p class="cal-desc">Узнайте как правильно говорить публично и владеть своим голосом на 100%</p>
+            <div class="cal-right">
+              <p class="cal-date">19 июня</p>
+              <span class="cal-arrow"><img src="assets/arrow-12.svg" alt=""></span>
+            </div>
+          </a>
+
+          <a class="cal-row reveal" style="--d:.06s" href="#">
+            <p class="cal-title">Выступление Седы Каспаровой</p>
+            <p class="cal-city">Санкт-Петербург</p>
+            <p class="cal-desc">Расскажет как избавиться от страха и говорить уверенно. Что нужно сделать, чтобы вас услышали</p>
+            <div class="cal-right">
+              <p class="cal-date">20 июля</p>
+              <span class="cal-arrow"><img src="assets/arrow-12.svg" alt=""></span>
+            </div>
+          </a>
+
+          <a class="cal-row reveal" style="--d:.12s" href="#">
+            <p class="cal-title">Открытый тренинг</p>
+            <p class="cal-city">Москва</p>
+            <p class="cal-desc">Получите программу под задачи вашей компании. Для развития коммуникации, продаж и лидерства.</p>
+            <div class="cal-right">
+              <p class="cal-date">25 июля</p>
+              <span class="cal-arrow"><img src="assets/arrow-12.svg" alt=""></span>
+            </div>
+          </a>
+
+          <a class="cal-row reveal" style="--d:.18s" href="#">
+            <p class="cal-title">Выступление Седы Каспаровой</p>
+            <p class="cal-city">Казань</p>
+            <p class="cal-desc">Получите программу под задачи вашей компании. Для развития коммуникации, продаж и лидерства.</p>
+            <div class="cal-right">
+              <p class="cal-date">25 июля</p>
+              <span class="cal-arrow"><img src="assets/arrow-12.svg" alt=""></span>
+            </div>
+          </a>
+
+        </div>
+
+        <button class="cal-more reveal" type="button">
+          Показать еще
+          <span class="cal-more-ico"><img src="assets/arrow-18.svg" alt=""></span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="page-tail"></div>
+
+</main>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
