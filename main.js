@@ -239,6 +239,41 @@
     });
   }
 
+  /* Награда следует за указателем только у строк GetAward. Оверлей расположен
+     за пределами smooth-content, поэтому фиксируется в координатах вьюпорта. */
+  function initGetAwardCursor() {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const cursor = document.querySelector('.award-hover-cursor');
+    const rows = [...document.querySelectorAll('.award-row')].filter((row) =>
+      row.querySelector('.award-source')?.textContent.trim() === 'GetAward'
+    );
+    if (!cursor || !rows.length) return;
+
+    let x = 0;
+    let y = 0;
+    let frame = 0;
+    const paint = () => {
+      cursor.style.transform = `translate3d(${x - 6}px, ${y - 30}px, 0)`;
+      frame = 0;
+    };
+    const move = (event) => {
+      x = event.clientX;
+      y = event.clientY;
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
+
+    rows.forEach((row) => {
+      row.classList.add('has-award-cursor');
+      row.addEventListener('pointerenter', (event) => {
+        move(event);
+        cursor.classList.add('is-visible');
+      });
+      row.addEventListener('pointermove', move);
+      row.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
+    });
+  }
+
   let lastP = -1;
   function updateMission() {
     if (!missionEl) return;
@@ -327,6 +362,7 @@
     splitMission();
     initMarquee();
     initAwardsStrings();
+    initGetAwardCursor();
     initSmooth();
     initReveal();
     initHeroSub();
