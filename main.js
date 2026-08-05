@@ -166,112 +166,116 @@
     });
   }
 
-  /* Повторяет механику Recognition: у строки есть одна SVG-линия с
-     неподвижными концами; при hover её середина пружинно возвращается
-     в исходное положение. */
-  function initAwardsStrings() {
-    const list = document.querySelector('.awards-list');
-    if (!list || reduced) return;
+  /* Карточки стартуют дугой. Когда секция входит в кадр, они плавно
+     выстраиваются и запускают медленную бесшовную прокрутку. */
+  let updateAwardsCarousel = () => {};
 
-    const rows = [...list.querySelectorAll('.award-row')];
-    if (!rows.length) return;
+  function initAwardsCarousel() {
+    const carousel = document.querySelector('.awards-carousel');
+    const track = carousel?.querySelector('.awards-track');
+    if (!carousel || !track) return;
 
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const makeString = (parent) => {
-      const svg = document.createElementNS(svgNS, 'svg');
-      const path = document.createElementNS(svgNS, 'path');
-      svg.classList.add('award-string');
-      svg.setAttribute('viewBox', '0 0 400 32');
-      svg.setAttribute('preserveAspectRatio', 'none');
-      svg.setAttribute('aria-hidden', 'true');
-      svg.appendChild(path);
-      parent.appendChild(svg);
-      return { svg, path };
-    };
+    const originalCards = [...track.querySelectorAll('.award-card')];
+    if (!originalCards.length) return;
 
-    const strings = rows.map(makeString);
-    const tail = makeString(list);
-    list.classList.add('has-strings');
-
-    const baseY = 16.5;
-    const amplitude = 30;
-    const duration = 1000;
-    const frames = new WeakMap();
-
-    const setPath = (path, controlY = baseY) => {
-      path.setAttribute('d', `M0,${baseY} Q200,${controlY} 400,${baseY}`);
-    };
-
-    [...strings, tail].forEach(({ path }) => setPath(path));
-
-    const elasticOut = (progress) => {
-      if (progress === 0 || progress === 1) return progress;
-      return Math.pow(2, -10 * progress) * Math.sin((progress * 10 - .75) * (2 * Math.PI / 3)) + 1;
-    };
-
-    const animateString = (string, row, direction) => {
-      const previous = frames.get(string.path);
-      if (previous) cancelAnimationFrame(previous);
-
-      const peakY = baseY + direction * amplitude;
-      const start = performance.now();
-      const step = (now) => {
-        const progress = Math.min(1, (now - start) / duration);
-        const easing = elasticOut(progress);
-        const controlY = peakY + (baseY - peakY) * easing;
-        setPath(string.path, controlY);
-        row.style.setProperty('--award-copy-shift', `${(controlY - baseY) * .2}px`);
-        if (progress < 1) frames.set(string.path, requestAnimationFrame(step));
-        else {
-          row.style.removeProperty('--award-copy-shift');
-          frames.delete(string.path);
-        }
-      };
-      frames.set(string.path, requestAnimationFrame(step));
-    };
-
-    rows.forEach((row, index) => {
-      row.addEventListener('mouseenter', (event) => {
-        const bounds = strings[index].svg.getBoundingClientRect();
-        const direction = event.clientY - bounds.top < baseY ? 1 : -1;
-        animateString(strings[index], row, direction);
-      });
+    const copies = originalCards.map((card) => {
+      const copy = card.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      track.appendChild(copy);
+      return copy;
     });
-  }
 
-  /* Награда следует за указателем только у строк GetAward. Оверлей расположен
-     за пределами smooth-content, поэтому фиксируется в координатах вьюпорта. */
-  function initGetAwardCursor() {
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    const cursor = document.querySelector('.award-hover-cursor');
-    const rows = [...document.querySelectorAll('.award-row')].filter((row) =>
-      row.querySelector('.award-source')?.textContent.trim() === 'GetAward'
-    );
-    if (!cursor || !rows.length) return;
-
-    let x = 0;
-    let y = 0;
+    let sequenceWidth = 0;
+    // Ставим карточку 2024 в центр дуги до запуска автопрокрутки.
+    let offset = 150;
+    let startOffset = 0;
+    let pointerStart = 0;
+    let aligned = reduced;
+    let hovering = false;
+    let dragging = false;
     let frame = 0;
-    const paint = () => {
-      cursor.style.transform = `translate3d(${x - 6}px, ${y - 30}px, 0)`;
-      frame = 0;
+    let lastTime = performance.now();
+
+    const measure = () => {
+      sequenceWidth = copies[0].offsetLeft - originalCards[0].offsetLeft;
     };
-    const move = (event) => {
-      x = event.clientX;
-      y = event.clientY;
-      if (!frame) frame = requestAnimationFrame(paint);
+    const normalize = () => {
+      if (!sequenceWidth) return;
+      while (offset >= sequenceWidth) offset -= sequenceWidth;
+      while (offset < 0) offset += sequenceWidth;
+    };
+    const paint = () => {
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    };
+    const tick = (now) => {
+      if (aligned && !reduced && !hovering && !dragging && sequenceWidth) {
+        offset += (now - lastTime) * .018;
+        normalize();
+        paint();
+      }
+      lastTime = now;
+      frame = requestAnimationFrame(tick);
+    };
+    const align = () => {
+      if (aligned) return;
+      aligned = true;
+      carousel.classList.add('is-aligned');
+      lastTime = performance.now();
     };
 
-    rows.forEach((row) => {
-      row.classList.add('has-award-cursor');
-      row.addEventListener('pointerenter', (event) => {
-        move(event);
-        cursor.classList.add('is-visible');
-      });
-      row.addEventListener('pointermove', move);
-      row.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
+    requestAnimationFrame(() => {
+      measure();
+      paint();
+      if (aligned) carousel.classList.add('is-aligned');
+      frame = requestAnimationFrame(tick);
     });
+
+    updateAwardsCarousel = () => {
+      if (aligned) return;
+      const rect = carousel.getBoundingClientRect();
+      if (rect.top < innerHeight * .84 && rect.bottom > innerHeight * .16) align();
+    };
+
+    carousel.addEventListener('pointerenter', () => {
+      if (aligned) hovering = true;
+    });
+    carousel.addEventListener('pointerleave', () => {
+      hovering = false;
+      if (!dragging) return;
+      dragging = false;
+      carousel.classList.remove('is-dragging');
+    });
+    carousel.addEventListener('pointerdown', (event) => {
+      if (!aligned || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      dragging = true;
+      hovering = true;
+      pointerStart = event.clientX;
+      startOffset = offset;
+      carousel.classList.add('is-dragging');
+      carousel.setPointerCapture?.(event.pointerId);
+    });
+    carousel.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      offset = startOffset - (event.clientX - pointerStart);
+      normalize();
+      paint();
+    });
+    const release = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      carousel.classList.remove('is-dragging');
+      if (carousel.hasPointerCapture?.(event.pointerId)) carousel.releasePointerCapture(event.pointerId);
+      if (event.pointerType !== 'mouse') hovering = false;
+      lastTime = performance.now();
+    };
+    carousel.addEventListener('pointerup', release);
+    carousel.addEventListener('pointercancel', release);
+
+    new ResizeObserver(() => {
+      measure();
+      normalize();
+      paint();
+    }).observe(track);
   }
 
   let lastP = -1;
@@ -337,6 +341,7 @@
     updateHeader(y);
     updateReveal();
     updateMission();
+    updateAwardsCarousel();
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -361,8 +366,7 @@
   function boot() {
     splitMission();
     initMarquee();
-    initAwardsStrings();
-    initGetAwardCursor();
+    initAwardsCarousel();
     initSmooth();
     initReveal();
     initHeroSub();
