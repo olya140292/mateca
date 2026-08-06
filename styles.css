@@ -132,10 +132,10 @@ body.smooth #smooth-content {
   width: var(--pill-w, 940px);
   height: 56px;
   padding: 0 8px 0 18px;
-  background: rgba(12, 18, 30, .72);
+  background: rgba(255, 255, 255, .82);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
+  box-shadow: inset 0 0 0 1px rgba(24, 35, 54, .1), 0 8px 28px rgba(24, 35, 54, .08);
 }
 
 /* logo ------------------------------------------------------- */
@@ -154,7 +154,12 @@ body.smooth #smooth-content {
   height: 39.553px;
   transition: width .78s var(--ease), height .78s var(--ease);
 }
-.hdr-mark img { width: 100%; height: 100%; }
+.hdr-mark img,
+.chev img {
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) saturate(100%) invert(13%) sepia(16%) saturate(2060%) hue-rotate(177deg) brightness(93%) contrast(92%);
+}
 #header.is-pill .hdr-mark { width: 22.3px; height: 31px; }
 
 /* Ширина, прозрачность и сдвиг идут одной длительностью и одной кривой
@@ -167,7 +172,7 @@ body.smooth #smooth-content {
   font-size: 14px;
   line-height: 14px;
   letter-spacing: -0.14px;
-  color: #fff;
+  color: var(--ink);
   white-space: nowrap;
   transform: translateX(0);
   transition:
@@ -204,7 +209,7 @@ body.smooth #smooth-content {
   padding: 12px 14px;
   font-size: 13px;
   line-height: 1;
-  color: #fff;
+  color: var(--ink);
   white-space: nowrap;
   transition: background-color .34s var(--ease-soft), color .34s var(--ease-soft);
 }
@@ -213,7 +218,7 @@ body.smooth #smooth-content {
   position: absolute;
   inset: 0;
   border-radius: 999px;       /* подложка ховера всегда полностью круглая */
-  background: rgba(255, 255, 255, .12);
+  background: rgba(24, 35, 54, .08);
   opacity: 0;
   transition: opacity .34s var(--ease-soft);
 }
@@ -228,7 +233,6 @@ body.smooth #smooth-content {
   transition: transform .42s var(--ease);
 }
 .nav-item:hover .chev { transform: scaleY(1); }
-.chev img { width: 100%; height: 100%; }
 
 /* cta -------------------------------------------------------- */
 .hdr-cta {
@@ -255,6 +259,9 @@ body.smooth #smooth-content {
 .btn-white--lg { height: 48px; padding: 0 20px; border-radius: 36px; }
 .btn-white:hover { background: #c9ced6; }
 .btn-white:active { background: #b7bec8; }
+.hdr-cta .btn-white { background: var(--ink); color: #fff; }
+.hdr-cta .btn-white:hover { background: #2a3851; }
+.hdr-cta .btn-white:active { background: #101827; }
 
 /* ═══════════════════════════════════════════════════════════════
    HERO AREA
@@ -286,12 +293,12 @@ body.smooth #smooth-content {
   background-color: #fff;               /* хвост ниже градиента */
   background-image:
     linear-gradient(180deg,
-      #05070c 0%,
-      #172441 35.813%,
-      #3a6199 64.774%,
-      #779abf 82.21%,
+      #ffffff 0%,
+      #f5f8ff 32%,
+      #e6efff 60%,
+      #d6e5ff 78%,
       #ffffff 100%),
-    linear-gradient(#05070c, #05070c);  /* заливка выше градиента */
+    linear-gradient(#ffffff, #ffffff);  /* заливка выше градиента */
   background-size: 100% 1416px, 100% 80px;
   background-position: 0 80px, 0 0;
   background-repeat: no-repeat;
@@ -307,6 +314,7 @@ body.smooth #smooth-content {
   height: 1416px;
   margin-left: -720px;
   pointer-events: none;
+  opacity: .36;
 }
 
 /* Лучи лежат непосредственно над градиентом и каждый смешивается с ним
@@ -380,9 +388,10 @@ body.smooth #smooth-content {
   border-radius: 20px;
   overflow: hidden;
   /* Полупрозрачная поверхность и размытие соответствуют референсной ноде. */
-  background: rgba(22, 26, 36, .8);
+  background: rgba(255, 255, 255, .86);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  box-shadow: inset 0 0 0 1px rgba(24, 35, 54, .08), 0 12px 30px rgba(24, 35, 54, .08);
 }
 .hero-event-photo {
   position: relative;
@@ -418,7 +427,7 @@ body.smooth #smooth-content {
   width: 191px;
   height: 96px;
   padding: 8px;
-  color: #fff;
+  color: var(--ink);
 }
 .hero-event-copy {
   display: flex;
@@ -441,18 +450,18 @@ body.smooth #smooth-content {
   height: 28px;
   padding: 0 14px;
   border-radius: 40px;
-  background: rgba(255, 255, 255, .1);
+  background: rgba(24, 35, 54, .08);
   font-size: 12px;
   line-height: 1.1;
   transition: background-color .3s var(--ease-soft);
 }
-.hero-event:hover .hero-event-cta { background: rgba(255, 255, 255, .18); }
+.hero-event:hover .hero-event-cta { background: rgba(24, 35, 54, .14); }
 .hero-event-dots { display: flex; align-items: center; gap: 4px; padding: 0 8px; }
 .hero-event-dots > i {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, .16);
+  background: rgba(24, 35, 54, .18);
 }
 .hero-event-progress {
   position: relative;
@@ -460,13 +469,13 @@ body.smooth #smooth-content {
   height: 4px;
   overflow: hidden;
   border-radius: 40px;
-  background: rgba(255, 255, 255, .16);
+  background: rgba(24, 35, 54, .18);
 }
 .hero-event-progress i {
   position: absolute;
   inset: 0 auto 0 0;
   width: 4px;
-  background: #fff;
+  background: var(--blue);
 }
 
 /* Контуры не просто ездят, а меняют форму: SVG отрисован с
@@ -508,7 +517,7 @@ body.smooth #smooth-content {
   font-size: 56px;
   line-height: 1.02;
   letter-spacing: -1.12px;
-  color: #fff;
+  color: var(--ink);
 }
 /* Подзаголовок-ротатор: строка уходит вверх под маску, следующая
    приходит снизу. Высота зафиксирована по макету (56px = 2 строки),
@@ -524,7 +533,7 @@ body.smooth #smooth-content {
   inset: 0;
   font-size: 20px;
   line-height: 1.4;
-  color: #fff;
+  color: rgba(24, 35, 54, .72);
   transform: translate3d(0, 100%, 0);
   opacity: 0;
   will-change: transform, opacity;
@@ -550,14 +559,15 @@ body.smooth #smooth-content {
   margin: 69px auto 0;
   padding: 24px;
   border-radius: 24px;
-  background: rgba(12, 18, 30, .72);
+  background: rgba(255, 255, 255, .76);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px rgba(24, 35, 54, .1), 0 18px 42px rgba(24, 35, 54, .1);
 }
 .widget-label {
   font-size: 15px;
   line-height: 1.1;
-  color: #fff;
+  color: var(--ink);
 }
 .widget-body {
   display: flex;
@@ -575,21 +585,21 @@ body.smooth #smooth-content {
   padding: 13px 16px;
   border: 0;
   border-radius: 12px;
-  background: rgba(255, 255, 255, .1);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0);
-  color: #fff;
+  background: rgba(24, 35, 54, .06);
+  box-shadow: inset 0 0 0 1px rgba(24, 35, 54, .06);
+  color: var(--ink);
   font-size: 15px;
   line-height: 1.1;
   outline: none;
   transition: background-color .3s var(--ease-soft), box-shadow .3s var(--ease-soft);
 }
-.field input::placeholder { color: rgba(255, 255, 255, .48); transition: color .3s var(--ease-soft); }
-.field input:hover { background: rgba(255, 255, 255, .16); }
+.field input::placeholder { color: rgba(24, 35, 54, .44); transition: color .3s var(--ease-soft); }
+.field input:hover { background: rgba(24, 35, 54, .09); }
 .field input:focus {
-  background: rgba(255, 255, 255, .16);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28);
+  background: rgba(24, 35, 54, .09);
+  box-shadow: inset 0 0 0 1px rgba(16, 90, 250, .48);
 }
-.field input:focus::placeholder { color: rgba(255, 255, 255, .32); }
+.field input:focus::placeholder { color: rgba(24, 35, 54, .28); }
 
 .btn-blue {
   flex: none;
@@ -621,26 +631,26 @@ body.smooth #smooth-content {
   place-items: center;
   width: 20px;
   height: 20px;
-  border: 1.5px solid rgba(255, 255, 255, .2);
+  border: 1.5px solid rgba(24, 35, 54, .22);
   border-radius: 6px;
   background: transparent;
   color: #fff;
   transition: background-color .28s var(--ease-soft), border-color .28s var(--ease-soft);
 }
 .consent-box svg { width: 12px; height: 10px; opacity: 0; transform: scale(.7); transition: opacity .24s var(--ease-soft), transform .32s var(--ease); }
-.consent:hover .consent-box { border-color: rgba(255, 255, 255, .44); }
+.consent:hover .consent-box { border-color: rgba(24, 35, 54, .48); }
 .consent input:checked + .consent-box { background: var(--blue); border-color: var(--blue); }
 .consent input:checked + .consent-box svg { opacity: 1; transform: scale(1); }
-.consent input:focus-visible + .consent-box { border-color: #fff; }
+.consent input:focus-visible + .consent-box { border-color: var(--blue); }
 
-.consent-text { font-size: 13px; line-height: 1.1; color: rgba(255, 255, 255, .72); }
+.consent-text { font-size: 13px; line-height: 1.1; color: rgba(24, 35, 54, .68); }
 .consent-text a {
   text-decoration: underline;
   text-decoration-skip-ink: none;
-  color: rgba(255, 255, 255, .72);
+  color: rgba(24, 35, 54, .68);
   transition: color .28s var(--ease-soft);
 }
-.consent-text a:hover { color: #fff; }
+.consent-text a:hover { color: var(--ink); }
 
 /* ═══════════════════════════════════════════════════════════════
    METRIC CARDS   (y 883, h 441)
@@ -1664,7 +1674,7 @@ body.smooth #smooth-content {
     bottom: -80px;
     background-color: transparent;
     background-image: linear-gradient(180deg,
-      #05070c 0%, #172441 35.813%, #3a6199 64.774%, #779abf 82.21%, #ffffff 100%);
+      #ffffff 0%, #f5f8ff 32%, #e6efff 60%, #d6e5ff 78%, #ffffff 100%);
     background-size: auto;
     background-position: 0 0;
   }
