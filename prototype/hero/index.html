@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Школа Седы Каспаровой — коммуникация</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="hero" id="hero">
+    <div class="hero__glow hero__glow--left" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--right" aria-hidden="true"></div>
+    <canvas class="network" id="network" aria-hidden="true"></canvas>
+
+    <header class="header">
+      <a class="brand" href="#" aria-label="Школа Седы Каспаровой — главная">
+        <img class="brand__mark" src="assets/logo.svg" alt="">
+        <span>Школа<br>Седы Каспаровой</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#">Обучение <img src="assets/icon-plus.svg" alt=""></a><a href="#">Тренинги <img src="assets/icon-plus.svg" alt=""></a>
+        <a href="#">С чего начать</a><a href="#">Выступления Седы</a><a href="#">Контакты</a><a href="#">Ещё <img src="assets/icon-plus.svg" alt=""></a>
+      </nav>
+      <a class="header-cta" href="#">Подобрать обучение</a>
+    </header>
+
+    <section class="hero__center" aria-labelledby="hero-title">
+      <div class="hero__halo" aria-hidden="true"></div>
+      <h1 id="hero-title">Научитесь общаться уверенно и убедительно</h1>
+      <a class="hero-cta" href="#">Подобрать обучение</a>
+    </section>
+
+    <div class="nodes" id="nodes" role="group" aria-label="Смысловое поле проекта"></div>
+    <p class="sr-only" id="network-help">Выберите слово, чтобы увидеть связанные с ним качества и навыки. Escape закрывает связи.</p>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>
