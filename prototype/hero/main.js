@@ -59,8 +59,8 @@ function resize(){
   state.initialized=true;
 }
 function protectedRect(){
-  const h=hero.getBoundingClientRect(),t=title.getBoundingClientRect(),cta=document.querySelector('.hero-cta').getBoundingClientRect(),pad=28;
-  return {left:Math.min(t.left,cta.left)-h.left-pad,right:Math.max(t.right,cta.right)-h.left+pad,top:Math.min(t.top,cta.top)-h.top-pad,bottom:Math.max(t.bottom,cta.bottom)-h.top+pad};
+  const h=hero.getBoundingClientRect(),t=title.getBoundingClientRect(),pad=28;
+  return {left:t.left-h.left-pad,right:t.right-h.left+pad,top:t.top-h.top-pad,bottom:t.bottom-h.top+pad};
 }
 function edgePoint(node,target){
   const dx=target.x-node.x,dy=target.y-node.y,sx=(node.width/2+5)/Math.max(1,Math.abs(dx)),sy=(node.height/2+5)/Math.max(1,Math.abs(dy)),scale=Math.min(sx,sy,1);return{x:node.x+dx*scale,y:node.y+dy*scale};
