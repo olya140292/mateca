@@ -5,6 +5,7 @@ const WORDS = [
   ['Конфликт',.64,.16,0],['Устойчивость',.78,.18,760],['Опора',.57,.27,1080],['Проявленность',.90,.28,1080],['Доверие',.82,.42,1080],
   ['Связи',.92,.49,760],['Репутация',.90,.67,0],['Возможности',.73,.67,900]
 ];
+const MOBILE_LAYOUT = [[.17,.16],[.5,.14],[.82,.17],[.10,.3],[.91,.3],[.11,.63],[.9,.63],[.17,.72],[.5,.78],[.83,.72]];
 const LINKS = {
   Голос:['Речь','Смысл','Подача'], Речь:['Смысл','Выступления'], Смысл:['Подача','Диалог'],
   Подача:['Выступления','Самопрезентация'], Диалог:['Подход','Переговоры','Конфликт'], Подход:['Переговоры','Доверие'],
@@ -12,10 +13,41 @@ const LINKS = {
   Границы:['Конфликт','Устойчивость'], Конфликт:['Устойчивость','Репутация'], Устойчивость:['Опора','Проявленность'],
   Опора:['Проявленность','Возможности'], Проявленность:['Доверие'], Доверие:['Связи'], Связи:['Репутация','Возможности']
 };
-const hero=document.querySelector('#hero'), canvas=document.querySelector('#network'), ctx=canvas.getContext('2d'), layer=document.querySelector('#nodes'), title=document.querySelector('#hero-title');
+const hero=document.querySelector('#hero'), canvas=document.querySelector('#network'), ctx=canvas.getContext('2d'), layer=document.querySelector('#nodes'), title=document.querySelector('#hero-title'), header=document.querySelector('.header'), menuToggle=document.querySelector('.mobile-menu-toggle'), menuBackdrop=document.querySelector('.mobile-menu-backdrop'), menuLinks=document.querySelectorAll('.nav a'), navToggles=document.querySelectorAll('.nav-toggle'), navSubmenus=document.querySelectorAll('.nav-submenu');
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
-const state={width:0,height:0,active:null,titleHover:false,frame:0,running:true,initialized:false,releaseTimer:0,lastTime:0};
+const state={width:0,height:0,active:null,titleHover:false,frame:0,running:true,initialized:false,isMobile:false,releaseTimer:0,lastTime:0};
 let lastInput='keyboard';
+function setSubmenu(id){
+  if(!id){
+    navToggles.forEach(toggle=>{toggle.setAttribute('aria-expanded','false');toggle.closest('.nav-group')?.classList.remove('is-submenu-open');});
+    navSubmenus.forEach(panel=>{panel.classList.remove('is-open');panel.setAttribute('aria-hidden','true');panel.inert=true;});
+    header.classList.remove('has-open-submenu');
+    return;
+  }
+  const toggle=[...navToggles].find(item=>item.getAttribute('aria-controls')===id),panel=document.querySelector(`#${id}`),open=toggle?.getAttribute('aria-expanded')!=='true';
+  if(!toggle||!panel)return;
+  if(open&&innerWidth>767){
+    navToggles.forEach(item=>{if(item===toggle)return;item.setAttribute('aria-expanded','false');item.closest('.nav-group')?.classList.remove('is-submenu-open');});
+    navSubmenus.forEach(item=>{if(item===panel)return;item.classList.remove('is-open');item.setAttribute('aria-hidden','true');item.inert=true;});
+  }
+  toggle.setAttribute('aria-expanded',String(open));
+  toggle.closest('.nav-group')?.classList.toggle('is-submenu-open',open);
+  panel.classList.toggle('is-open',open);
+  panel.setAttribute('aria-hidden',String(!open));
+  panel.inert=!open;
+  header.classList.toggle('has-open-submenu',[...navToggles].some(item=>item.getAttribute('aria-expanded')==='true'));
+}
+function setMenuOpen(open){
+  header.classList.toggle('is-menu-open',open);
+  menuToggle.setAttribute('aria-expanded',String(open));
+  menuToggle.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');
+  setSubmenu(null);
+}
+menuToggle.addEventListener('click',()=>setMenuOpen(!header.classList.contains('is-menu-open')));
+menuBackdrop.addEventListener('click',()=>setMenuOpen(false));
+navToggles.forEach(toggle=>toggle.addEventListener('click',()=>setSubmenu(toggle.getAttribute('aria-controls'))));
+menuLinks.forEach(link=>link.addEventListener('click',()=>{setSubmenu(null);setMenuOpen(false);}));
+document.addEventListener('pointerdown',event=>{if(innerWidth>767&&!header.contains(event.target))setSubmenu(null);});
 const nodes=WORDS.map(([text,x,y,min],index)=>({text,x0:x,y0:y,min,index,x:0,y:0,vx:0,vy:0,width:0,height:0,visible:true,el:null}));
 const byName=new Map(nodes.map(n=>[n.text,n]));
 const graph=new Map(nodes.map(n=>[n.text,new Set()]));
@@ -54,10 +86,10 @@ function releaseFromCenter(){
   nodes.forEach(node=>{if(!node.visible)return;const dx=node.x-cx,dy=node.y-cy,d=Math.hypot(dx,dy)||1;node.vx+=dx/d*.7-dy/d*.48;node.vy+=dy/d*.7+dx/d*.48;});
 }
 function resize(){
-  const rect=hero.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),oldW=state.width||rect.width,oldH=state.height||rect.height;
+  const rect=hero.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),oldW=state.width||rect.width,oldH=state.height||rect.height,isMobile=innerWidth<=767,enteringMobile=isMobile&&!state.isMobile;
   state.width=rect.width;state.height=rect.height;canvas.width=Math.round(rect.width*ratio);canvas.height=Math.round(rect.height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
-  nodes.forEach(n=>{n.visible=innerWidth>=n.min;n.el.hidden=!n.visible;n.width=n.el.offsetWidth;n.height=n.el.offsetHeight;if(!state.initialized){n.x=n.x0*state.width;n.y=n.y0*state.height;n.vx=(Math.random()-.5)*.5;n.vy=(Math.random()-.5)*.5;}else{n.x=n.x/oldW*state.width;n.y=n.y/oldH*state.height;}});
-  state.initialized=true;
+  nodes.forEach(n=>{n.visible=isMobile?n.index<MOBILE_LAYOUT.length:innerWidth>=n.min;n.el.hidden=!n.visible;n.width=n.el.offsetWidth;n.height=n.el.offsetHeight;if(!state.initialized){n.x=n.x0*state.width;n.y=n.y0*state.height;n.vx=(Math.random()-.5)*.5;n.vy=(Math.random()-.5)*.5;}else{n.x=n.x/oldW*state.width;n.y=n.y/oldH*state.height;}if(isMobile&&(enteringMobile||!state.initialized)){const [x,y]=MOBILE_LAYOUT[n.index]||[n.x0,n.y0];n.x=x*state.width;n.y=y*state.height;}if(isMobile)n.y=Math.min(n.y,state.height-96-n.height/2);n.el.style.transform=`translate3d(${n.x-n.width/2}px,${n.y-n.height/2}px,0)`;});
+  state.initialized=true;state.isMobile=isMobile;
 }
 function protectedRect(){
   const h=hero.getBoundingClientRect(),t=title.getBoundingClientRect(),pad=28;
@@ -67,9 +99,9 @@ function edgePoint(node,target){
   const dx=target.x-node.x,dy=target.y-node.y,sx=(node.width/2+5)/Math.max(1,Math.abs(dx)),sy=(node.height/2+5)/Math.max(1,Math.abs(dy)),scale=Math.min(sx,sy,1);return{x:node.x+dx*scale,y:node.y+dy*scale};
 }
 function keepSafe(node,box){
-  const edge=14,halfW=node.width/2,halfH=node.height/2;
+  const edge=14,halfW=node.width/2,halfH=node.height/2,bottomEdge=innerWidth<=767?96:edge;
   if(node.x-halfW<edge){node.x=edge+halfW;node.vx=Math.abs(node.vx);}if(node.x+halfW>state.width-edge){node.x=state.width-edge-halfW;node.vx=-Math.abs(node.vx);}
-  if(node.y-halfH<68){node.y=68+halfH;node.vy=Math.abs(node.vy);}if(node.y+halfH>state.height-edge){node.y=state.height-edge-halfH;node.vy=-Math.abs(node.vy);}
+  if(node.y-halfH<68){node.y=68+halfH;node.vy=Math.abs(node.vy);}if(node.y+halfH>state.height-bottomEdge){node.y=state.height-bottomEdge-halfH;node.vy=-Math.abs(node.vy);}
   const inside=node.x+halfW>box.left&&node.x-halfW<box.right&&node.y+halfH>box.top&&node.y-halfH<box.bottom;
   if(!inside)return;
   const options=[{d:Math.abs(node.x-halfW-box.left),x:box.left-halfW,y:node.y,axis:'x'},{d:Math.abs(box.right-(node.x+halfW)),x:box.right+halfW,y:node.y,axis:'x'},{d:Math.abs(node.y-halfH-box.top),x:node.x,y:box.top-halfH,axis:'y'},{d:Math.abs(box.bottom-(node.y+halfH)),x:node.x,y:box.bottom+halfH,axis:'y'}].sort((a,b)=>a.d-b.d)[0];
@@ -92,6 +124,6 @@ function draw(time){
   if(state.active)graph.get(state.active).forEach(name=>{const from=byName.get(state.active),to=byName.get(name);if(!from?.visible||!to?.visible)return;const a=edgePoint(from,to),b=edgePoint(to,from);ctx.strokeStyle='rgba(66,128,242,.78)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();});
   state.frame=requestAnimationFrame(draw);
 }
-document.addEventListener('keydown',event=>{lastInput='keyboard';if(event.key==='Escape'){clearTimeout(state.releaseTimer);setActive(null);document.activeElement?.blur();}});
+document.addEventListener('keydown',event=>{lastInput='keyboard';if(event.key==='Escape'){if(header.classList.contains('is-menu-open')){setMenuOpen(false);menuToggle.focus();return;}const openToggle=[...navToggles].find(toggle=>toggle.getAttribute('aria-expanded')==='true');if(openToggle){setSubmenu(null);openToggle.focus();return;}clearTimeout(state.releaseTimer);setActive(null);document.activeElement?.blur();}});
 addEventListener('resize',resize,{passive:true});document.addEventListener('visibilitychange',()=>{state.running=!document.hidden;if(state.running){state.lastTime=0;state.frame=requestAnimationFrame(draw);}});addEventListener('pagehide',()=>{state.running=false;cancelAnimationFrame(state.frame);clearTimeout(state.releaseTimer);});
 resize();document.fonts?.ready.then(resize);requestAnimationFrame(draw);
